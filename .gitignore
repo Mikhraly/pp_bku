@@ -1,0 +1,6 @@
+.vs
+
+pp_bku/Debug/*
+!pp_bku/Debug/*.hex
+pp_bku/Release/*
+!pp_bku/Release/*.hex
