@@ -13,7 +13,7 @@
 #include <avr/io.h>
 
 void adc_init_8bit();
-void adc_work_8bit();
+uint8_t adc_work_8bit(uint8_t number);
 
 
 #endif /* ADC_H_ */
