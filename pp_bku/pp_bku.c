@@ -12,10 +12,11 @@
 int main(void)
 {
 	ports_init();
-	adc_init_8bit();
 	hd44780_init();
+	adc_init_8bit();
 	
-	// TODO Вывод начального текста на дисплей
+	hd44780_printString1("GB1-? GB2-? GB3-? GB4-? GB5-? GB6-?");
+	hd44780_printString2("GB7-? УПС-? МРДТТ-? ПП1-? ПП2-?");
 	
 	while (1) {
 		
