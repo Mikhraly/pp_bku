@@ -12,14 +12,15 @@
 
 #define F_CPU 16000000UL
 
+#include <avr/io.h>
 #include <util/delay.h>
 #include "pp_bku.h"
 #include "hd44780.h"
 #include "adc.h"
 
 typedef struct {
-	uint8_t worked	:1;
-	uint8_t status	:1;
+	uint8_t worked :1;
+	uint8_t status :1;
 	uint8_t adcChannel;
 	uint8_t minToLaunch;
 	uint8_t minToPreparation;
