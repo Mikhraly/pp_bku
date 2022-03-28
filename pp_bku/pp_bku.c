@@ -24,67 +24,67 @@ int main(void)
 			status.pp1 = checkAdcResult(adcMeasureAverageOfTen(0), 51, 2);	// 1V, 0.04V
 			flag.pp1Worked = 1;
 			while (~PINB & 1<<4);
-			_delay_us(20);
+			_delay_us(10);
 		}
 		if (~PIND & 1<<0) {		// ÏÏ2
 			status.pp2 = checkAdcResult(adcMeasureAverageOfTen(0), 51, 2);	// 1V, 0.04V
 			flag.pp2Worked = 1;
 			while (~PIND & 1<<0);
-			_delay_us(20);
+			_delay_us(10);
 		}
 		if (~PIND & 1<<1) {		// GB5
 			status.gb5 = checkAdcResult(adcMeasureAverageOfTen(1), 163, 2);	// 3.2V, 0.04V
 			flag.gb5Worked = 1;
 			while (~PIND & 1<<1);
-			_delay_us(20);
+			_delay_us(10);
 		}
 		if (~PIND & 1<<2) {		// GB6
 			status.gb6 = checkAdcResult(adcMeasureAverageOfTen(1), 163, 2);	// 3.2V, 0.04V
 			flag.gb6Worked = 1;
 			while (~PIND & 1<<2);
-			_delay_us(20);
+			_delay_us(10);
 		}
 		if (~PIND & 1<<3) {		// GB7
 			status.gb7 = checkAdcResult(adcMeasureAverageOfTen(1), 163, 2);	// 3.2V, 0.04V
 			flag.gb7Worked = 1;
 			while (~PIND & 1<<3);
-			_delay_us(20);
+			_delay_us(10);
 		}
 		if (~PIND & 1<<4) {		// GB1
 			status.gb1 = checkAdcResult(adcMeasureAverageOfTen(1), 163, 2);	// 3.2V, 0.04V
 			flag.gb1Worked = 1;
 			while (~PIND & 1<<4);
-			_delay_us(20);
+			_delay_us(10);
 		}
 		if (~PIND & 1<<5) {		// GB2
 			status.gb2 = checkAdcResult(adcMeasureAverageOfTen(1), 163, 2);	// 3.2V, 0.04V
 			flag.gb2Worked = 1;
 			while (~PIND & 1<<5);
-			_delay_us(20);
+			_delay_us(10);
 		}
 		if (~PIND & 1<<6) {		// GB3
 			status.gb3 = checkAdcResult(adcMeasureAverageOfTen(1), 163, 2);	// 3.2V, 0.04V
 			flag.gb3Worked = 1;
 			while (~PIND & 1<<6);
-			_delay_us(20);
+			_delay_us(10);
 		}
 		if (~PIND & 1<<7) {		// GB4
 			status.gb4 = checkAdcResult(adcMeasureAverageOfTen(1), 163, 2);	// 3.2V, 0.04V
 			flag.gb4Worked = 1;
 			while (~PIND & 1<<7);
-			_delay_us(20);
+			_delay_us(10);
 		}
 		if (~PINC & 1<<0) {		// ÌÐÄÒÒ
 			status.mrdtt = checkAdcResult(adcMeasureAverageOfTen(2), 112, 1);	// 2.2V, 0.02V
 			flag.mrdttWorked = 1;
 			while (~PINC & 1<<0);
-			_delay_us(20);
+			_delay_us(10);
 		}
 		if (~PINC & 1<<1) {		// ÓÏÑ
 			status.ups = checkAdcResult(adcMeasureAverageOfTen(2), 112, 1);	// 2.2V, 0.02V
 			flag.upsWorked = 1;
 			while (~PINC & 1<<1);
-			_delay_us(20);
+			_delay_us(10);
 		}
 		
 		
