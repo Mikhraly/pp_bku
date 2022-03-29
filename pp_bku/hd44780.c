@@ -7,9 +7,9 @@
 
 #include "hd44780.h"
 
-void hd44780_work(const uint8_t mode, const uint8_t byte);
-void hd44780_convertStringRus(char string[]);
-char hd44780_convertSymbolRus(char symbol);
+static void hd44780_work(const uint8_t mode, const uint8_t byte);
+static void convertStringRus(char string[]);
+static char convertSymbolRus(char symbol);
 
 void hd44780_init() {
 	// Настройка выводов на выход
@@ -39,7 +39,7 @@ void hd44780_init_proteus() {
 	hd44780_com(0b00001100);	// Включение дисплея. Запрет видимости курсора. Запрет мерцания курсора
 }
 
-void hd44780_work(const uint8_t mode, const uint8_t byte) {
+static void hd44780_work(const uint8_t mode, const uint8_t byte) {
 	// Установить режим команда(0)/данные(1)
 	mode ? (PORT_HD44780 |= (1<<RS))	:	(PORT_HD44780 &= ~(1<<RS));
 	// Вывод в порт старшей тетрады
@@ -97,7 +97,7 @@ void hd44780_printArray2(const uint8_t *array, const uint8_t size) {
 
 
 void hd44780_printString(char *string) {
-	hd44780_convertStringRus(string);			// Раскоментировать при использовании "Страницы 0" дисплея МТ-16S2D
+	convertStringRus(string);			// Раскоментировать при использовании "Страницы 0" дисплея МТ-16S2D
 	for (uint8_t i=0; string[i] != '\0'; i++)
 		hd44780_print(string[i]);
 }
@@ -113,12 +113,12 @@ void hd44780_printString2(char *string) {
 }
 
 
-void hd44780_convertStringRus(char string[]) {
+static void convertStringRus(char string[]) {
 	for(uint8_t i=0; string[i] != '\0'; i++)
-		string[i] = hd44780_convertSymbolRus(string[i]);
+		string[i] = convertSymbolRus(string[i]);
 }
 
-char hd44780_convertSymbolRus(char symbol) {
+static char convertSymbolRus(char symbol) {
 	switch(symbol) {
 	case 'А':	return 0x41;
 	case 'Б':	return 0xA0;
