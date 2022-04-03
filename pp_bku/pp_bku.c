@@ -18,17 +18,19 @@ int main(void)
 	hd44780_printString1("GB1-? GB2-? GB3-? GB4-? GB5-? GB6-?");
 	hd44780_printString2("GB7-? соя-? лпдрр-? оо1-? оо2-?");
 	
-	Module gb1 = {0, 0, 1, 163, 2};	// 3.2V, 0.04V
-	Module gb2 = {0, 0, 1, 163, 2};	// 3.2V, 0.04V
-	Module gb3 = {0, 0, 1, 163, 2};	// 3.2V, 0.04V
-	Module gb4 = {0, 0, 1, 163, 2};	// 3.2V, 0.04V
-	Module gb5 = {0, 0, 1, 163, 2};	// 3.2V, 0.04V
-	Module gb6 = {0, 0, 1, 163, 2};	// 3.2V, 0.04V
-	Module gb7 = {0, 0, 1, 163, 2};	// 3.2V, 0.04V
-	Module ups = {0, 0, 2, 112, 1};	// 2.2V, 0.02V
-	Module mrdtt = {0, 0, 2, 112, 1};	// 2.2V, 0.02V
-	Module pp1 = {0, 0, 0, 51, 2};	// 1V, 0.04V
-	Module pp2 = {0, 0, 0, 51, 2};	// 1V, 0.04V
+	Module gb1 = {0, 0, 1, 0x04, 163, 2};	// 3.2V, 0.04V
+	Module gb2 = {0, 0, 1, 0x0A, 163, 2};	// 3.2V, 0.04V
+	Module gb3 = {0, 0, 1, 0x12, 163, 2};	// 3.2V, 0.04V
+	Module gb4 = {0, 0, 1, 0x16, 163, 2};	// 3.2V, 0.04V
+	Module gb5 = {0, 0, 1, 0x1E, 163, 2};	// 3.2V, 0.04V
+	Module gb6 = {0, 0, 1, 0x24, 163, 2};	// 3.2V, 0.04V
+	Module gb7 = {0, 0, 1, 0x40, 163, 2};	// 3.2V, 0.04V
+	Module ups = {0, 0, 2, 0x00, 112, 1};	// 2.2V, 0.02V
+	Module mrdtt = {0, 0, 2, 0x00, 112, 1};	// 2.2V, 0.02V
+	Module pp1 = {0, 0, 0, 0x18, 51, 2};	// 1V, 0.04V
+	Module pp2 = {0, 0, 0, 0x20, 51, 2};	// 1V, 0.04V
+	
+	Module *module[] = {&gb1, &gb2, &gb3, &gb4, &gb5, &gb6, &gb7, &ups, &mrdtt, &pp1, &pp2};
 	
 	while (1) {
 		
@@ -100,52 +102,14 @@ int main(void)
 		}
 		
 		
-		if (pp1.worked) {
-			pp1.worked = 0;
-			hd44780_setAddress(0x18);
-			hd44780_print(pp1.status);
+		for (uint8_t i=0; i<11; i++) {
+			if (module[i]->worked) {
+				module[i]->worked = 0;
+				hd44780_setAddress(module[i]->lcdAddress);
+				hd44780_print(module[i]->status);
+			}
 		}
-		if (pp2.worked) {
-			pp2.worked = 0;
-			hd44780_setAddress(0x20);
-			hd44780_print(pp2.status);
-		}
-		if (gb5.worked) {
-			gb5.worked = 0;
-			hd44780_setAddress(0x1E);
-			hd44780_print(gb5.status);
-		}
-		if (gb6.worked) {
-			gb6.worked = 0;
-			hd44780_setAddress(0x24);
-			hd44780_print(gb6.status);
-		}
-		if (gb7.worked) {
-			gb7.status = 0;
-			hd44780_setAddress(0x40);
-			hd44780_print(gb7.status);
-		}
-		if (gb1.worked) {
-			gb1.worked = 0;
-			hd44780_setAddress(0x04);
-			hd44780_print(gb1.status);
-		}
-		if (gb2.worked) {
-			gb2.worked = 0;
-			hd44780_setAddress(0x0A);
-			hd44780_print(gb2.status);
-		}
-		if (gb3.worked) {
-			gb3.worked = 0;
-			hd44780_setAddress(0x12);
-			hd44780_print(gb3.status);
-		}
-		if (gb4.worked) {
-			gb4.worked = 0;
-			hd44780_setAddress(0x16);
-			hd44780_print(gb4.status);
-		}
-		
+
 	}
 }
 
