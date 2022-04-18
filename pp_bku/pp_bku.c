@@ -16,21 +16,21 @@ int main(void)
 	adc_init_8bit();
 	
 	hd44780_printString1("GB1-? GB2-? GB3-? GB4-? GB5-? GB6-?");
-	hd44780_printString2("GB7-? ÓÏÑ-? ÌÐÄÒÒ-? ÏÏ1-? ÏÏ2-?");
+	hd44780_printString2("GB7-? ÓÏÑ-? ÌÐÄ-? ÏÏ1-? ÏÏ2-?");
 	
-	Module gb1 = {0, 0, 1, 0x04, 163, 2};	// 3.2V, 0.04V
-	Module gb2 = {0, 0, 1, 0x0A, 163, 2};	// 3.2V, 0.04V
-	Module gb3 = {0, 0, 1, 0x12, 163, 2};	// 3.2V, 0.04V
-	Module gb4 = {0, 0, 1, 0x16, 163, 2};	// 3.2V, 0.04V
-	Module gb5 = {0, 0, 1, 0x1E, 163, 2};	// 3.2V, 0.04V
-	Module gb6 = {0, 0, 1, 0x24, 163, 2};	// 3.2V, 0.04V
-	Module gb7 = {0, 0, 1, 0x40, 163, 2};	// 3.2V, 0.04V
-	Module ups = {0, 0, 2, 0x00, 112, 1};	// 2.2V, 0.02V
-	Module mrdtt = {0, 0, 2, 0x00, 112, 1};	// 2.2V, 0.02V
-	Module pp1 = {0, 0, 0, 0x18, 51, 2};	// 1V, 0.04V
-	Module pp2 = {0, 0, 0, 0x20, 51, 2};	// 1V, 0.04V
+	Module gb1 = {0, 0, 1, 0x04, 50, 5};	// 1.0V, 0.1V
+	Module gb2 = {0, 0, 1, 0x0A, 50, 5};	// 1.0V, 0.1V
+	Module gb3 = {0, 0, 1, 0x10, 50, 5};	// 1.0V, 0.1V
+	Module gb4 = {0, 0, 1, 0x16, 50, 5};	// 1.0V, 0.1V
+	Module gb5 = {0, 0, 1, 0x1C, 50, 5};	// 1.0V, 0.1V
+	Module gb6 = {0, 0, 1, 0x22, 50, 5};	// 1.0V, 0.1V
+	Module gb7 = {0, 0, 1, 0x44, 50, 5};	// 1.0V, 0.1V
+	Module ups = {0, 0, 2, 0x4A, 50, 4};	// 1.0V, 0.08V
+	Module mrd = {0, 0, 2, 0x50, 50, 4};	// 1.0V, 0.08V
+	Module pp1 = {0, 0, 0, 0x56, 40, 3};	// 0.8V, 0.06V
+	Module pp2 = {0, 0, 0, 0x5C, 40, 3};	// 0.8V, 0.06V
 	
-	Module *module[] = {&gb1, &gb2, &gb3, &gb4, &gb5, &gb6, &gb7, &ups, &mrdtt, &pp1, &pp2};
+	Module *module[] = {&gb1, &gb2, &gb3, &gb4, &gb5, &gb6, &gb7, &ups, &mrd, &pp1, &pp2};
 	
 	while (1) {
 		
@@ -89,8 +89,8 @@ int main(void)
 			_delay_us(10);
 		}
 		if (~PINC & 1<<0) {		// ÌÐÄÒÒ
-			mrdtt.status = checkModuleStatus(&mrdtt);
-			mrdtt.worked = 1;
+			mrd.status = checkModuleStatus(&mrd);
+			mrd.worked = 1;
 			while (~PINC & 1<<0);
 			_delay_us(10);
 		}
@@ -117,13 +117,16 @@ int main(void)
 void ports_init() {
 	DDRA |= (1<<3) | (1<<4) | (1<<5) | (1<<6) | (1<<7);
 	PORTA &= ~(1<<3) & ~(1<<4) & ~(1<<5) & ~(1<<6) & ~(1<<7);
+	
 	DDRB &= ~(1<<4);
 	PORTB |= 1<<4;
-	DDRC &= ~(1<<0) & ~(1<<1);
-	PORTC |= (1<<0) | (1<<1);
+	
+	DDRC &= ~(1<<0) & ~(1<<1) &~(1<<6);
+	PORTC |= (1<<0) | (1<<1) | (1<<6);
 	DDRC |= 1<<7;
 	PORTC &= ~(1<<7);
-	DDRD = 0;
+	
+	DDRD = 0x00;
 	PORTD = 0xFF;
 }
 

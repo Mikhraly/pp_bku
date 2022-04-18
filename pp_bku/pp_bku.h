@@ -20,14 +20,14 @@
 
 typedef struct {
 	uint8_t worked :1;
-	uint8_t status :1;
+	uint8_t status;
 	uint8_t adcChannel;
 	uint8_t lcdAddress;
 	uint8_t minToLaunch;
 	uint8_t minToPreparation;
 } Module;
 
-enum modules {GB1, GB2, GB3, GB4, GB5, GB6, GB7, UPS, MRDTT, PP1, PP2};
+enum modules {GB1, GB2, GB3, GB4, GB5, GB6, GB7, UPS, MRD, PP1, PP2};
 
 
 void ports_init();
