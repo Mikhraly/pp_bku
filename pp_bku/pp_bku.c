@@ -12,8 +12,11 @@
 int main(void)
 {
 	ports_init();
+	timer1_init();
 	hd44780_init();
 	adc_init_8bit();
+	
+	asm("sei");
 	
 	hd44780_printString1("GB1-? GB2-? GB3-? GB4-? GB5-? GB6-?");
 	hd44780_printString2("GB7-? ÓÏÑ-? ÌÐÄ-? ÏÏ1-? ÏÏ2-?");
@@ -36,75 +39,86 @@ int main(void)
 		
 		if (~PINB & 1<<4) {		// ÏÏ1
 			pp1.status = checkModuleStatus(&pp1);
-			pp1.worked = 1;
+			pp1.checked = 1;
+			if (pp1.status == LAUNCH) PORTA |= 1<<7;
 			while (~PINB & 1<<4);
 			_delay_us(10);
 		}
 		if (~PIND & 1<<0) {		// ÏÏ2
 			pp2.status = checkModuleStatus(&pp2);
-			pp2.worked = 1;
+			pp2.checked = 1;
+			if (pp2.status == LAUNCH) PORTC |= 1<<7;
 			while (~PIND & 1<<0);
 			_delay_us(10);
 		}
 		if (~PIND & 1<<1) {		// GB5
 			gb5.status = checkModuleStatus(&gb5);
-			gb5.worked = 1;
+			gb5.checked = 1;
+			if (gb5.status == LAUNCH && launch.BABS == 0) launch.BABS = START;
 			while (~PIND & 1<<1);
 			_delay_us(10);
 		}
 		if (~PIND & 1<<2) {		// GB6
 			gb6.status = checkModuleStatus(&gb6);
-			gb6.worked = 1;
+			gb6.checked = 1;
+			if (gb6.status == LAUNCH && launch.BABS == 0) launch.BABS = START;
 			while (~PIND & 1<<2);
 			_delay_us(10);
 		}
 		if (~PIND & 1<<3) {		// GB7
 			gb7.status = checkModuleStatus(&gb7);
-			gb7.worked = 1;
+			gb7.checked = 1;
+			if (gb7.status == LAUNCH && launch.BABS == 0) launch.BABS = START;
 			while (~PIND & 1<<3);
 			_delay_us(10);
 		}
 		if (~PIND & 1<<4) {		// GB1
 			gb1.status = checkModuleStatus(&gb1);
-			gb1.worked = 1;
+			gb1.checked = 1;
+			if (gb1.status == LAUNCH && launch.BABP == 0) launch.BABP = START;
 			while (~PIND & 1<<4);
 			_delay_us(10);
 		}
 		if (~PIND & 1<<5) {		// GB2
 			gb2.status = checkModuleStatus(&gb2);
-			gb2.worked = 1;
+			gb2.checked = 1;
+			if (gb2.status == LAUNCH && launch.BABP == 0) launch.BABP = START;
 			while (~PIND & 1<<5);
 			_delay_us(10);
 		}
 		if (~PIND & 1<<6) {		// GB3
 			gb3.status = checkModuleStatus(&gb3);
-			gb3.worked = 1;
+			gb3.checked = 1;
+			if (gb3.status == LAUNCH && launch.BABP == 0) launch.BABP = START;
 			while (~PIND & 1<<6);
 			_delay_us(10);
 		}
 		if (~PIND & 1<<7) {		// GB4
 			gb4.status = checkModuleStatus(&gb4);
-			gb4.worked = 1;
+			gb4.checked = 1;
+			if (gb4.status == LAUNCH && launch.BABP == 0) launch.BABP = START;
 			while (~PIND & 1<<7);
 			_delay_us(10);
 		}
 		if (~PINC & 1<<0) {		// ÌÐÄÒÒ
 			mrd.status = checkModuleStatus(&mrd);
-			mrd.worked = 1;
+			mrd.checked = 1;
+			if (mrd.status == LAUNCH) PORTA |= 1<<6;
 			while (~PINC & 1<<0);
 			_delay_us(10);
 		}
 		if (~PINC & 1<<1) {		// ÓÏÑ
 			ups.status = checkModuleStatus(&ups);
-			ups.worked = 1;
+			ups.checked = 1;
+			if (ups.status == LAUNCH) PORTA |= 1<<5;
 			while (~PINC & 1<<1);
 			_delay_us(10);
 		}
 		
 		
 		for (uint8_t i=0; i<11; i++) {
-			if (module[i]->worked) {
-				module[i]->worked = 0;
+			if (module[i]->checked) {
+				module[i]->checked = 0;
 				hd44780_setAddress(module[i]->lcdAddress);
 				hd44780_print(module[i]->status);
 			}
@@ -137,7 +151,7 @@ uint8_t checkModuleStatus(Module* module) {
 		adcValue += (uint16_t)(adc_work_8bit(module->adcChannel));
 	uint8_t adcAverage = (uint8_t)(adcValue /= 10);
 	
-	if (adcAverage > module->minToLaunch) return 0xA4;				// "Ç" - Çàïóñê
-	else if (adcAverage > module->minToPreparation) return 0xA8;	// "Ï" - Ïðîâåðêà
-	else return 0x4F;												// "Î" - Îáðûâ
+	if (adcAverage > module->minToLaunch) return LAUNCH;
+	else if (adcAverage > module->minToPreparation) return PREPARATION;
+	else return BREAKAGE;
 }

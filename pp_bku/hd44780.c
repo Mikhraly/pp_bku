@@ -14,7 +14,6 @@ static char convertSymbolRus(char symbol);
 void hd44780_init() {
 	// Настройка выводов на выход
 	DDR_HD44780 |= 1<<E | 1<<RS | 1<<HD44780_D4 | 1<<HD44780_D5 | 1<<HD44780_D6 | 1<<HD44780_D7;
-	_delay_ms(20);
 	// Инициализация
 	_delay_ms(40);
 	hd44780_work(0, 0b00000011); _delay_ms(6);
@@ -60,7 +59,6 @@ static void hd44780_work(const uint8_t mode, const uint8_t byte) {
 	PORT_HD44780 |= (1<<E);
 	asm("nop");
 	PORT_HD44780 &= ~(1<<E);
-	_delay_ms(10);
 }
 
 void hd44780_com(const uint8_t command) {
