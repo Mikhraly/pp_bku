@@ -18,20 +18,20 @@ int main(void)
 	
 	asm("sei");
 	
-	hd44780_printString1("GB1-? GB2-? GB3-? GB4-? GB5-? GB6-?");
-	hd44780_printString2("GB7-? соя-? лпд-? оо1-? оо2-?");
+	hd44780_printString1("GB1-? GB2-? GB3-? GB4-?   соя-?   оо1-?");
+	hd44780_printString2("GB5-? GB6-? GB7-?         лпд-?   оо2-?");
 	
 	Module gb1 = {0, 0, 1, 0x04, 50, 5};	// 1.0V, 0.1V
 	Module gb2 = {0, 0, 1, 0x0A, 50, 5};	// 1.0V, 0.1V
 	Module gb3 = {0, 0, 1, 0x10, 50, 5};	// 1.0V, 0.1V
 	Module gb4 = {0, 0, 1, 0x16, 50, 5};	// 1.0V, 0.1V
-	Module gb5 = {0, 0, 1, 0x1C, 50, 5};	// 1.0V, 0.1V
-	Module gb6 = {0, 0, 1, 0x22, 50, 5};	// 1.0V, 0.1V
-	Module gb7 = {0, 0, 1, 0x44, 50, 5};	// 1.0V, 0.1V
-	Module ups = {0, 0, 2, 0x4A, 50, 4};	// 1.0V, 0.08V
-	Module mrd = {0, 0, 2, 0x50, 50, 4};	// 1.0V, 0.08V
-	Module pp1 = {0, 0, 0, 0x56, 40, 3};	// 0.8V, 0.06V
-	Module pp2 = {0, 0, 0, 0x5C, 40, 3};	// 0.8V, 0.06V
+	Module gb5 = {0, 0, 1, 0x44, 50, 5};	// 1.0V, 0.1V
+	Module gb6 = {0, 0, 1, 0x4A, 50, 5};	// 1.0V, 0.1V
+	Module gb7 = {0, 0, 1, 0x50, 50, 5};	// 1.0V, 0.1V
+	Module ups = {0, 0, 2, 0x1E, 50, 4};	// 1.0V, 0.08V
+	Module mrd = {0, 0, 2, 0x5E, 50, 4};	// 1.0V, 0.08V
+	Module pp1 = {0, 0, 0, 0x26, 40, 3};	// 0.8V, 0.06V
+	Module pp2 = {0, 0, 0, 0x66, 40, 3};	// 0.8V, 0.06V
 	
 	Module *module[] = {&gb1, &gb2, &gb3, &gb4, &gb5, &gb6, &gb7, &ups, &mrd, &pp1, &pp2};
 	
